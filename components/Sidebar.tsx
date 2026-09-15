@@ -68,7 +68,7 @@ export default function Sidebar({
       )}
       <aside
         style={{ width: open ? width : 0 }}
-        className={`fixed inset-y-0 left-0 z-30 flex flex-shrink-0 flex-col overflow-hidden border-red-100 bg-white/90 p-4 shadow-xl backdrop-blur-xl transition-[width,transform,padding,border] dark:border-red-950 dark:bg-gray-900/90 md:relative md:z-0 md:shadow-none ${
+        className={`fixed inset-y-0 left-0 z-30 flex shrink-0 flex-col overflow-hidden border-red-100 bg-white/90 p-4 shadow-xl backdrop-blur-xl transition-[width,transform,padding,border] dark:border-red-950 dark:bg-gray-900/90 md:relative md:z-0 md:shadow-none ${
           open
             ? 'translate-x-0 border-r'
             : '-translate-x-full border-r-0 p-0 md:translate-x-0'
@@ -106,7 +106,7 @@ export default function Sidebar({
         <button
           type="button"
           onClick={onNewChat}
-          className="mb-4 flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-red-500 to-red-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-red-500/20 transition hover:from-red-600 hover:to-red-700"
+          className="mb-4 flex items-center justify-center gap-2 rounded-xl bg-linear-to-r from-red-500 to-red-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-red-500/20 transition hover:from-red-600 hover:to-red-700"
         >
           <span className="text-lg leading-none" aria-hidden="true">
             +

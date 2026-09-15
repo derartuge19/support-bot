@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { FormEvent, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
@@ -34,13 +35,15 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-gradient-to-br from-red-50 via-white to-red-100 p-4 dark:from-gray-900 dark:via-gray-800 dark:to-red-950">
+    <main className="flex min-h-screen items-center justify-center bg-linear-to-br from-red-50 via-white to-red-100 p-4 dark:from-gray-900 dark:via-gray-800 dark:to-red-950">
       <div className="w-full max-w-md rounded-2xl border border-red-100 bg-white/85 p-6 shadow-2xl backdrop-blur-xl dark:border-red-950 dark:bg-gray-800/85 md:p-8">
         <div className="mb-8 text-center">
-          <div className="mx-auto mb-4 h-16 w-16 overflow-hidden rounded-2xl bg-gradient-to-br from-red-500 to-red-700 shadow-lg shadow-red-500/30">
-            <img
+          <div className="mx-auto mb-4 h-16 w-16 overflow-hidden rounded-2xl bg-linear-to-br from-red-500 to-red-700 shadow-lg shadow-red-500/30">
+            <Image
               src="/logo.jpg"
               alt="Spidey"
+              width={64}
+              height={64}
               className="h-full w-full object-cover"
             />
           </div>
@@ -83,7 +86,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-xl bg-gradient-to-r from-red-500 to-red-600 px-4 py-3 font-semibold text-white shadow-lg shadow-red-500/25 transition hover:from-red-600 hover:to-red-700 disabled:cursor-not-allowed disabled:opacity-60"
+            className="w-full rounded-xl bg-linear-to-r from-red-500 to-red-600 px-4 py-3 font-semibold text-white shadow-lg shadow-red-500/25 transition hover:from-red-600 hover:to-red-700 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {loading ? 'Signing in...' : 'Sign in'}
           </button>

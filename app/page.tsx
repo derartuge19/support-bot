@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import Image from 'next/image';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import Sidebar from '@/components/Sidebar';
@@ -446,7 +447,7 @@ export default function Home() {
   }
 
   return (
-    <div className="fixed inset-0 bg-gradient-to-br from-red-50 via-white to-red-100 dark:from-gray-900 dark:via-gray-800 dark:to-red-950 transition-colors duration-300">
+    <div className="fixed inset-0 bg-linear-to-br from-red-50 via-white to-red-100 dark:from-gray-900 dark:via-gray-800 dark:to-red-950 transition-colors duration-300">
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-red-500/10 dark:bg-red-500/20 rounded-full blur-3xl animate-pulse"></div>
         <div
@@ -493,15 +494,17 @@ export default function Home() {
           )}
           <header className="flex items-center justify-between mb-6 md:mb-8">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-red-500 to-red-700 rounded-2xl flex items-center justify-center shadow-lg shadow-red-500/30 overflow-hidden">
-                <img
+              <div className="w-12 h-12 md:w-14 md:h-14 bg-linear-to-br from-red-500 to-red-700 rounded-2xl flex items-center justify-center shadow-lg shadow-red-500/30 overflow-hidden">
+                <Image
                   src="/logo.jpg"
                   alt="Spidey"
+                  width={56}
+                  height={56}
                   className="w-full h-full object-cover"
                 />
               </div>
               <div>
-                <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-red-600 to-red-800 dark:from-red-400 dark:to-red-600 bg-clip-text text-transparent">
+                <h1 className="text-2xl md:text-3xl font-bold bg-linear-to-r from-red-600 to-red-800 dark:from-red-400 dark:to-red-600 bg-clip-text text-transparent">
                   Spidey
                 </h1>
                 <p className="text-sm md:text-base text-gray-600 dark:text-gray-400 font-medium">
@@ -541,7 +544,7 @@ export default function Home() {
               <>
                 {messages.length === 0 && (
                   <div className="flex flex-col items-center justify-center h-full text-center px-4 py-12">
-                    <div className="w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-red-100 to-red-200 dark:from-red-900/30 dark:to-red-800/30 rounded-full flex items-center justify-center mb-6 shadow-lg">
+                    <div className="w-20 h-20 md:w-24 md:h-24 bg-linear-to-br from-red-100 to-red-200 dark:from-red-900/30 dark:to-red-800/30 rounded-full flex items-center justify-center mb-6 shadow-lg">
                       <svg
                         className="w-10 h-10 md:w-12 md:h-12 text-red-500 dark:text-red-400"
                         fill="none"
@@ -587,18 +590,20 @@ export default function Home() {
                     style={{ animationDelay: `${i * 50}ms` }}
                   >
                     <div
-                      className={`w-fit max-w-[85%] break-words p-4 md:max-w-[75%] md:p-5 rounded-2xl shadow-lg ${
+                      className={`w-fit max-w-[85%] wrap-break-word p-4 md:max-w-[75%] md:p-5 rounded-2xl shadow-lg ${
                         msg.role === 'user'
-                          ? 'bg-gradient-to-br from-red-500 to-red-600 text-white rounded-br-md'
+                          ? 'bg-linear-to-br from-red-500 to-red-600 text-white rounded-br-md'
                           : 'bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-bl-md border border-gray-200 dark:border-gray-700'
                       }`}
                     >
                       <div className="flex items-center gap-2 mb-2">
                         {msg.role === 'assistant' && (
-                          <div className="w-6 h-6 bg-gradient-to-br from-red-500 to-red-700 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden">
-                            <img
+                          <div className="w-6 h-6 bg-linear-to-br from-red-500 to-red-700 rounded-full flex items-center justify-center shrink-0 overflow-hidden">
+                            <Image
                               src="/logo.jpg"
                               alt="Spidey"
+                              width={24}
+                              height={24}
                               className="w-full h-full object-cover"
                             />
                           </div>
@@ -699,10 +704,12 @@ export default function Home() {
                   <div className="flex justify-start animate-fade-in">
                     <div className="bg-white dark:bg-gray-800 p-4 md:p-5 rounded-2xl rounded-bl-md shadow-lg border border-gray-200 dark:border-gray-700">
                       <div className="flex items-center gap-2 mb-2">
-                        <div className="w-6 h-6 bg-gradient-to-br from-red-500 to-red-700 rounded-full flex items-center justify-center overflow-hidden">
-                          <img
+                        <div className="w-6 h-6 bg-linear-to-br from-red-500 to-red-700 rounded-full flex items-center justify-center overflow-hidden">
+                          <Image
                             src="/logo.jpg"
                             alt="Spidey"
+                            width={24}
+                            height={24}
                             className="w-full h-full object-cover"
                           />
                         </div>
@@ -778,7 +785,7 @@ export default function Home() {
               {loading ? (
                 <button
                   onClick={cancelMessage}
-                  className="bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white px-5 md:px-7 py-3 md:py-4 rounded-xl font-semibold transition-all duration-200 shadow-lg flex items-center gap-2 text-sm md:text-base"
+                  className="bg-linear-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white px-5 md:px-7 py-3 md:py-4 rounded-xl font-semibold transition-all duration-200 shadow-lg flex items-center gap-2 text-sm md:text-base"
                 >
                   <svg
                     className="w-4 h-4 md:w-5 md:h-5"
@@ -799,7 +806,7 @@ export default function Home() {
                 <button
                   onClick={sendMessage}
                   disabled={!input.trim()}
-                  className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed text-white px-5 md:px-7 py-3 md:py-4 rounded-xl font-semibold transition-all duration-200 shadow-lg shadow-red-500/30 hover:shadow-red-500/50 flex items-center gap-2 text-sm md:text-base"
+                  className="bg-linear-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed text-white px-5 md:px-7 py-3 md:py-4 rounded-xl font-semibold transition-all duration-200 shadow-lg shadow-red-500/30 hover:shadow-red-500/50 flex items-center gap-2 text-sm md:text-base"
                 >
                   <span>Send</span>
                   <svg
