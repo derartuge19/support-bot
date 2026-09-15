@@ -1,18 +1,19 @@
-import { resolve } from 'node:path';
-import { pathToFileURL } from 'node:url';
-
-import { PDFParse } from 'pdf-parse';
-
 import { embedTexts } from '@/lib/embeddings';
 import { createClient } from '@/lib/supabase/server';
 
 export const runtime = 'nodejs';
 
-const pdfWorkerPath = resolve(
-  process.cwd(),
-  'node_modules/pdf-parse/dist/pdf-parse/esm/pdf.worker.mjs',
-);
-PDFParse.setWorker(pathToFileURL(pdfWorkerPath).toString());
+if (
+  typeof globalThis !== 'undefined' &&
+  typeof globalThis.DOMMatrix === 'undefined'
+) {
+  class ServerDOMMatrix {}
+  globalThis.DOMMatrix = ServerDOMMatrix as unknown as typeof DOMMatrix;
+}
+
+// Use unpdf's bundled serverless PDF.js build. It inlines its worker and is
+// designed for Vercel/serverless bundlers, unlike the external legacy worker.
+const unpdfPromise = import('unpdf');
 
 function chunkText(text: string, targetWords = 650, maxWords = 800) {
   const paragraphs = text
@@ -104,7 +105,7 @@ export async function POST(request: Request) {
     }
 
     const safeFileName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
-    const storagePath = `${user.id}/${chatId}/${safeFileName}`;
+    const storagePath = `${user.id}/${chatId}/${Date.now()}-${safeFileName}`;
     const fileBuffer = Buffer.from(await file.arrayBuffer());
 
     const { data: existingDocument, error: existingError } = await supabase
@@ -131,22 +132,17 @@ export async function POST(request: Request) {
       .from('pdfs')
       .upload(storagePath, fileBuffer, {
         contentType: 'application/pdf',
-        upsert: true,
+        upsert: false,
       });
 
     if (uploadError) throw uploadError;
 
-    const parser = new PDFParse({
-      data: fileBuffer,
-    });
-    let text: string;
-
-    try {
-      const result = await parser.getText();
-      text = result.text.trim();
-    } finally {
-      await parser.destroy();
-    }
+    const { extractText, getDocumentProxy } = await unpdfPromise;
+    const pdf = await getDocumentProxy(new Uint8Array(fileBuffer), {
+      disableWorker: true,
+    } as Parameters<typeof getDocumentProxy>[1] & { disableWorker: boolean });
+    const extracted = await extractText(pdf, { mergePages: true });
+    const text = extracted.text.trim();
 
     if (!text) {
       return Response.json(
